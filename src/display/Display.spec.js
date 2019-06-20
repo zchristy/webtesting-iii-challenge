@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { render, fireEvent } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import '@testing-library/react/cleanup-after-each'
 
 import Display from './Display';
@@ -61,45 +61,44 @@ describe('<Display />', () => {
 
   describe('is the red-led light displayed when closed or locked', () => {
     it('should be closed with red-led classname', () => {
-      const { getByText, queryByText, container } = render(<Display locked={false} closed={true} />)
+      const { getByText } = render(<Display locked={false} closed={true} />)
 
       const closedGate = /closed/i
-      const redLed = /led red-led/i
+      const redLed = 'led red-led'
 
-      console.log(container.firstChild.classList.contains('redLed'))
-
-      expect(queryByText(closedGate).getAttribute('className')).toBe(redLed)
+      expect(getByText(closedGate).getAttribute('class')).toBe(redLed)
     })
 
-    it.skip('should be closed and locked', () => {
+    it('should be locked with red-led classname', () => {
       const { getByText } = render(<Display locked={true} closed={true} />)
 
-      const closedGate = /closed/i
       const lockedGate = /locked/i
+      const redLed = 'led red-led'
 
-      expect(getByText(closedGate).textContent).toBe('Closed')
-      expect(getByText(lockedGate).textContent).toBe('Locked')
+      expect(getByText(lockedGate).getAttribute('class')).toBe(redLed)
     })
+
   })
 
-  it.skip('should be open and unlocked', () => {
-    const { getByText } = render(<Display locked={false} closed={false} />)
+  describe('is the green-led light displayed when open or unlocked', () => {
+    it('should be closed with red-led classname', () => {
+      const { getByText } = render(<Display locked={false} closed={false} />)
 
-    const openGate = /open/i
-    const unlockedGate = /unlocked/i
+      const openGate = /open/i
+      const greenLed = 'led green-led'
 
-    expect(getByText(openGate).textContent).toBe('Open')
-    expect(getByText(unlockedGate).textContent).toBe('Unlocked')
-  })
+      expect(getByText(openGate).getAttribute('class')).toBe(greenLed)
+    })
 
-  it.skip('should be open and locked', () => {
-    const { getByText } = render(<Display locked={true} closed={false} />)
+    it('should be locked with red-led classname', () => {
+      const { getByText } = render(<Display locked={false} closed={true} />)
 
-    const openGate = /open/i
-    const lockedGate = /locked/i
+      const unlockedGate = /locked/i
+      const greenLed = 'led green-led'
 
-    expect(getByText(openGate).textContent).toBe('Open')
-    expect(getByText(lockedGate).textContent).toBe('Locked')
+      expect(getByText(unlockedGate).getAttribute('class')).toBe(greenLed)
+    })
+
   })
 
 })
